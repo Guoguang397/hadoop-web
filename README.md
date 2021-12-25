@@ -9,7 +9,7 @@ Hadoop Web for course design.
 - JDK 1.8
 
 ### Structure
-||NameNode|DataNode|ResourceManager|NodeManager|JournalNode|ZKNode
+|Dev|NameNode|DataNode|ResourceManager|NodeManager|JournalNode|ZKNode
 |:--:|:--:|:--:|:--:|:--:|:--:|:--:|
 |hadoop1|x|x| |x|x|x|
 |hadoop2|x|x|x|x|x|x|
