@@ -21,24 +21,24 @@ import java.util.jar.JarFile;
 
 public class JarLoader {
     public static PackageInfo loadJar(String jarPath) throws Exception {
-        URL[] urls = new URL[] { new URL("file://"+jarPath)};
+        URL[] urls = new URL[] { new URL("jar:file:"+jarPath+"!/META-INF/MANIFEST.MF")};
         URLClassLoader loader = new URLClassLoader(urls);
-        Class<?> clazz = loader.loadClass("edu/nefu/hadoop/PackageInfo");
+        Class<?> clazz = loader.loadClass("edu.nefu.hadoop.PackageInfo");
         PackageInfo pki = (PackageInfo) clazz.getConstructor().newInstance();
         return pki;
     }
 
     public static PackageInfo loadAll(String jarPath) throws Exception {
-        URL[] urls = new URL[] { new URL("file://"+jarPath)};
+        URL[] urls = new URL[] { new URL("jar:file:"+jarPath+"!/META-INF/MANIFEST.MF")};
         URLClassLoader loader = new URLClassLoader(urls);
         System.out.println(urls[0]);
         JarFile jarFile = ((JarURLConnection) urls[0].openConnection()).getJarFile();
-        loadClassFromJar("edu.nefu.hadoop",jarFile);
+        loadClassFromJar("edu.nefu.hadoop",jarFile, loader);
         return null;
     }
 
 
-    public static Set<Class> loadClassFromJar(String basePackage, JarFile jar) {
+    public static Set<Class> loadClassFromJar(String basePackage, JarFile jar, URLClassLoader loader) throws ClassNotFoundException {
 
         Set<Class> classes = new HashSet<>();
         String pkgPath = basePackage.replace(".", "/");
@@ -54,11 +54,11 @@ public class JarLoader {
                 continue;
             }
             String className = entryName.substring(0, entryName.length() - 6);
-//            clazz = loadClass(className.replace("/", "."));
             System.out.println(className.replace("/", "."));
-//            if (clazz != null && !clazz.isInterface() && superClass.isAssignableFrom(clazz)) {
-//                classes.add(clazz);
-//            }
+            clazz = loader.loadClass(className.replace("/", "."));
+            if (clazz != null && !clazz.isInterface()) {
+                classes.add(clazz);
+            }
         }
         return classes;
     }
