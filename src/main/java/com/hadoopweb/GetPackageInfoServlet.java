@@ -20,8 +20,14 @@ public class GetPackageInfoServlet extends HttpServlet {
         String realPath = this.getServletContext().getRealPath(jarPath);
         System.out.println(realPath);
         try {
-            PackageInfo pki = JarLoader.loadAll(realPath);
+            PackageInfo pki = JarLoader.loadJar(realPath);
             System.out.println(pki);
+            System.out.println(pki.MapperClass);
+            System.out.println(pki.ReducerClass);
+            System.out.println(pki.MapOutputKeyClass);
+            System.out.println(pki.MapOutputValueClass);
+            System.out.println(pki.OutputKeyClass);
+            System.out.println(pki.OutputValueClass);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -29,6 +35,16 @@ public class GetPackageInfoServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws  IOException {
-        doGet(request, response);
+        String jarPath = request.getParameter("jarPath");
+        String inputPath = request.getParameter("inPath");
+        jarPath = "WEB-INF/uploads/maven.jar";
+        String realPath = this.getServletContext().getRealPath(jarPath);
+        System.out.println(realPath);
+        try {
+            PackageInfo pki = JarLoader.loadAll(realPath);
+            System.out.println(pki);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

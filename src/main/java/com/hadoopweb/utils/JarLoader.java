@@ -1,18 +1,8 @@
 package com.hadoopweb.utils;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
-import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-import org.apache.hadoop.mapreduce.Job;
-
-import java.io.IOException;
 import java.net.JarURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,25 +11,24 @@ import java.util.jar.JarFile;
 
 public class JarLoader {
     public static PackageInfo loadJar(String jarPath) throws Exception {
-        URL[] urls = new URL[] { new URL("jar:file:"+jarPath+"!/META-INF/MANIFEST.MF")};
-        URLClassLoader loader = new URLClassLoader(urls);
-        Class<?> clazz = loader.loadClass("edu.nefu.hadoop.PackageInfo");
-        PackageInfo pki = (PackageInfo) clazz.getConstructor().newInstance();
+        URL[] urls = new URL[] { new URL("jar:file:"+jarPath+"!/")};
+        URLClassLoader loader = new URLClassLoader(urls ,Thread.currentThread().getContextClassLoader());
+        Class<?> clazz = loader.loadClass("com.hadoopweb.utils.PackageInfo");
+        PackageInfo pki = (PackageInfo) clazz.newInstance();
         return pki;
     }
 
     public static PackageInfo loadAll(String jarPath) throws Exception {
-        URL[] urls = new URL[] { new URL("jar:file:"+jarPath+"!/META-INF/MANIFEST.MF")};
-        URLClassLoader loader = new URLClassLoader(urls);
+        URL[] urls = new URL[] { new URL("jar:file:"+jarPath+"!/")};
+        URLClassLoader loader = new URLClassLoader(urls, Thread.currentThread().getContextClassLoader());
         System.out.println(urls[0]);
         JarFile jarFile = ((JarURLConnection) urls[0].openConnection()).getJarFile();
-        loadClassFromJar("edu.nefu.hadoop",jarFile, loader);
+        loadClassFromJar("com.hadoopweb.utils",jarFile, loader);
         return null;
     }
 
 
     public static Set<Class> loadClassFromJar(String basePackage, JarFile jar, URLClassLoader loader) throws ClassNotFoundException {
-
         Set<Class> classes = new HashSet<>();
         String pkgPath = basePackage.replace(".", "/");
         Enumeration<JarEntry> entries = jar.entries();
