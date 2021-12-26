@@ -1,12 +1,12 @@
 package com.hadoopweb.utils;
 
+import com.hadoopweb.PackageInfo;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
@@ -15,13 +15,21 @@ import java.util.List;
 public class JobManager {
    List<Job> jobs = new LinkedList<Job>();
 
-   public Job submitJob(String jarPath, PackageInfo pki) throws Exception {
+   public static Job submitJob(PackageInfo pki) throws Exception {
       // 0x01 Get configuration and Job instance
       Configuration conf = new Configuration();
+      conf.set("fs.defaultFS", "hdfs://192.168.48.10:9000");
+      conf.set("hadoop.job.user", "guoguang");
+      conf.set("mapreduce.framework.name", "yarn");
+//      conf.set("mapreduce.jobtracker.address", "192.168.48.10:9001");
+      conf.set("yarn.resourcemanager.hostname", "192.168.48.11");
+      conf.set("mapreduce.jobhistory.address", "192.168.48.10:10020");
+      conf.set("mapreduce.jobhistory.webapp.address", "192.168.48.10:19888");
+
       Job job = Job.getInstance(conf);
 
       // 0x02 Set jar path
-      job.setJar(jarPath);
+      job.setJar(pki.jarPath);
 
       // 0x03 Connect Mapper and Reducer
       job.setMapperClass(pki.MapperClass);
@@ -39,11 +47,14 @@ public class JobManager {
       FileInputFormat.setInputPaths(job, new Path(pki.InputPath));
 
       // 0x07 Specify Job output Path
-      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
-      FileOutputFormat.setOutputPath(job, new Path("/output/"+sdf.format(new Date())));
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
+      String outputPath = "/output/"+sdf.format(new Date());
+      FileOutputFormat.setOutputPath(job, new Path(outputPath));
+      pki.OutputPath = outputPath;
 
       // 0x08 Submit Job
       job.submit();
+      pki.job = job;
       return job;
    }
 }
