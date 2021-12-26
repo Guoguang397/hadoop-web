@@ -37,10 +37,10 @@ public class ExecuteJobServlet extends HttpServlet {
             pki.InputPath = inputPath;
             Job job = JobManager.submitJob(pki);
             pw.println(job.getJobID());
-            List<Job> jobs = (List<Job>) this.getServletContext().getAttribute("jobs");
-            if(jobs == null) jobs = new LinkedList<>();
-            jobs.add(job);
-            this.getServletContext().setAttribute("jobs", jobs);
+            List<PackageInfo> pkis = (List<PackageInfo>) this.getServletContext().getAttribute("pkis");
+            if(pkis == null) pkis = new LinkedList<>();
+            pkis.add(pki);
+            this.getServletContext().setAttribute("pkis", pkis);
         } catch (Exception e) {
             pw.println("1\nError while loading pkgs or submitting job.");
             e.printStackTrace();

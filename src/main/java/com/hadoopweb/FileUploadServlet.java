@@ -62,10 +62,6 @@ public class FileUploadServlet extends HttpServlet {
                     out.println("Wrong ext.");
                     return;
                 }
-                if(saveFile.equals("exp8.war")) {
-                    out.println("Package Name not allowed.");
-                    return;
-                }
                 file = new String(dataBytes, StandardCharsets.US_ASCII);
 
                 //取得数据的分隔字符串

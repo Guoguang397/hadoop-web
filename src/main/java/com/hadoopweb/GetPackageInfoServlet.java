@@ -23,14 +23,7 @@ public class GetPackageInfoServlet extends HttpServlet {
         System.out.println(realPath);
         try {
             PackageInfo pki = JarLoader.loadJar(realPath);
-            System.out.println(pki);
-            System.out.println(pki.MapperClass);
-            System.out.println(pki.ReducerClass);
-            System.out.println(pki.MapOutputKeyClass);
-            System.out.println(pki.MapOutputValueClass);
-            System.out.println(pki.OutputKeyClass);
-            System.out.println(pki.OutputValueClass);
-            pw.println("1");
+            pw.println("0");
             pw.println("JarPath: " + realPath);
             pw.println("MapperClass: " + pki.MapperClass);
             pw.println("ReducerClass: " + pki.ReducerClass);

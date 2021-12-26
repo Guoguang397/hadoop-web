@@ -1,6 +1,5 @@
 package com.hadoopweb;
 
-import com.hadoopweb.utils.JarLoader;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;

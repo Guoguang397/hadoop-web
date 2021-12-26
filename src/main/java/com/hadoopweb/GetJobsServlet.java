@@ -14,10 +14,11 @@ public class GetJobsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter pw = response.getWriter();
-        List<Job> jobs = (List<Job>) this.getServletContext().getAttribute("jobs");
-        if(jobs != null) {
-            for (Job job:jobs) {
+        List<PackageInfo> pkis = (List<PackageInfo>) this.getServletContext().getAttribute("pkis");
+        if(pkis != null) {
+            for (PackageInfo info:pkis) {
                 try {
+                    Job job = info.job;
                     pw.println(String.format("%s|%s|%s|%d|%d|%f|%f|%f|%f|%s",
                             job.getJobID().toString(),job.getJobName(),job.getJobState().toString(),job.getStartTime(),job.getFinishTime(),
                             job.setupProgress(),job.mapProgress(),job.reduceProgress(),job.cleanupProgress(),job.getTrackingURL()));
