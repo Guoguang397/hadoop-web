@@ -18,12 +18,17 @@
     <link href="css/style.css?v=4.1.0" rel="stylesheet">
 
 </head>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+var xData = new Array();
+var yData = new Array();
 
+</script>
 <body class="gray-bg">
    <div class="form-group">
 	 <label for="exampleInputEmail1">Job ID</label><input type="text" class="form-control" />
 	</div>
-	<button type="submit" class="btn btn-default">Submit</button>
+	<button type="submit" class="btn btn-default submit-btn">Submit</button>
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
             <div class="col-sm-6">
@@ -103,19 +108,55 @@
 <!--     <script src="js/demo/echarts-demo.js"></script> -->
     <script>
     $(function (){
+    	htmlobj=$.ajax({
+    		type:"post",
+    		url:"ReadResultServlet",
+    		async:false,
+    		dataType:"text"
+    	});
+    	var result = htmlobj.responseText;
+    	var rowsArray = result.split('\n');
+    	rowsArray.pop();
+    	
+     	//alert(rowsArray);
+     	
+     	
+    	for (var j in rowsArray){
+    		var str = rowsArray[j];
+    		//alert(str);
+    		var strArray  = str.split('\t')
+    		
+    	    for(var i in strArray){
+    	    	if (i==0){
+    	    		xData.push(strArray[i]);
+    	    	}
+    	    	else if (i==1){
+    	    		yData.push(parseInt(strArray[i]));
+    	    	}
+    	         //alert(strArray[i]);
+    	    }
+    		
+     		//alert(rowStr);
+    		
+    	}
+    	alert(xData);
+    	alert(yData);
+    	
         var lineChart = echarts.init(document.getElementById("echarts-line-chart"));
         var lineoption = {
         		
         		 xAxis: {
         			    type: 'category',
-        			    data: ['第1季度', '第2季度', '第3季度', '第4季度']
+//         			    data: ['第1季度', '第2季度', '第3季度', '第4季度']
+        				data: xData
         		},
       			  yAxis: {
       			    type: 'value'
       			  },
       			  series: [
       			    {
-      			      data: [471348, 918589, 1061129, 841613],
+      			    	data: yData,
+      			      //data: [471348, 918589, 1061129, 841613],
       			      type: 'line'
       			    }
       			  ]
@@ -127,14 +168,14 @@
         var baroption = {
         		 xAxis: {
      			    type: 'category',
-     			    data: ['第1季度', '第2季度', '第3季度', '第4季度']
+     			    data: xData
      		},
    			  yAxis: {
    			    type: 'value'
    			  },
    			  series: [
    			    {
-   			      data: [471348, 918589, 1061129, 841613],
+   			      data: yData,
    			      type: 'bar'
    			    }
    			  ]
