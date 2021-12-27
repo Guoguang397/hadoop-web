@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+    <title>主页示例</title>
+
+
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.0.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.0.1/js/button.min.js"></script>
+<script>
+$(document).ready(function(){
+	
+	htmlobj=$.ajax({
+		url:"GetJobsServlet",
+		async:false,
+		dataType:"text"
+	});
+// 	alert(htmlobj.responseText);
+	var rows = htmlobj.responseText;
+	//alert(rows);
+	var rowsArray = rows.split('\n');
+	rowsArray.pop();
+// 	alert(rowsArray);
+	for (var j in rowsArray){
+		var str = rowsArray[j];
+		//alert(str);
+		var strArray  = str.split('|')
+		var rowStr = "<tr>";
+	    for(var i in strArray){
+	    	rowStr = rowStr + "<td>"+strArray[i]+"</td>"
+	//         alert(strArray[i]);
+	    }
+		rowStr = rowStr + "</tr>"
+// 		alert(rowStr);
+		$("#show-table").append(rowStr);
+	}
+});
+</script>
+<body>
+
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <table class="table table-hover table-striped" >
+                    <thead>
+                        <tr>
+                    
+                            <th>
+                                JobID
+                            </th>
+                            <th>
+                                JobName
+                            </th>
+                            <th>
+                                JobState
+                            </th>
+                            <th>
+                                StartTIme
+                            </th>
+                            
+                            <th>
+                                FinishTime
+                            </th>
+                            <th>
+                                setupProgress
+                            </th>
+                            <th>
+                                mapProgres
+                            </th>
+                            <th>
+                                reduceProgress
+                            </th>
+                            <th>
+                                cleanupProgress
+                            </th>
+                            <th>
+                                getTrackingURL
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="show-table">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
