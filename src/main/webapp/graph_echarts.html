@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <title> - 百度ECHarts</title>
+    <title>ECHarts</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
 
@@ -19,11 +19,6 @@
 
 </head>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-var xData = new Array();
-var yData = new Array();
-
-</script>
 <body class="gray-bg">
    <div class="form-group">
 	 <label for="exampleInputEmail1">Job ID</label><input type="text" class="form-control id-text" />
@@ -109,8 +104,9 @@ var yData = new Array();
     <script>
     $(function (){
     	$(".submit-btn").click(function(){
+            var xData = new Array();
+            var yData = new Array();
     		var jobId = $(".id-text").val();
-    		alert(jobId);
 	    	htmlobj=$.ajax({
 	    		type:"post",
 	    		url:"ReadResultServlet",
@@ -123,10 +119,7 @@ var yData = new Array();
 	    	var result = htmlobj.responseText;
 	    	var rowsArray = result.split('\n');
 	    	rowsArray.pop();
-	    	
-	     	//alert(rowsArray);
-	     	
-	     	
+
 	    	for (var j in rowsArray){
 	    		var str = rowsArray[j];
 	    		//alert(str);
@@ -145,12 +138,10 @@ var yData = new Array();
 	     		//alert(rowStr);
 	    		
 	    	}
-	    	alert(xData);
-	    	alert(yData);
+	    	alert(jobId+"\n"+xData+"\n"+yData);
 	    	
 	        var lineChart = echarts.init(document.getElementById("echarts-line-chart"));
 	        var lineoption = {
-	        		
 	        		 xAxis: {
 	        			    type: 'category',
 	//         			    data: ['第1季度', '第2季度', '第3季度', '第4季度']
