@@ -17,7 +17,7 @@ public class ExecuteJobServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter pw = response.getWriter();
-        pw.println("0\nMethod not allowed.");
+        pw.println("Method not allowed.");
     }
 
     @Override
@@ -26,10 +26,10 @@ public class ExecuteJobServlet extends HttpServlet {
         String jarName = request.getParameter("jarName");
         String inputPath = request.getParameter("inPath");
         if(jarName == null || inputPath == null) {
-            pw.println("1\nNo jarPath or inputPath.");
+            pw.println("No jarPath or inputPath.");
             return;
         }
-        jarName = "WEB-INF/uploads/maven.jar";
+        jarName = "WEB-INF/uploads/" + jarName;
         String realPath = this.getServletContext().getRealPath(jarName);
         System.out.println(realPath);
         try {
@@ -42,7 +42,7 @@ public class ExecuteJobServlet extends HttpServlet {
             pkis.add(pki);
             this.getServletContext().setAttribute("pkis", pkis);
         } catch (Exception e) {
-            pw.println("1\nError while loading pkgs or submitting job.");
+            pw.println("Error while loading pkgs or submitting job.");
             e.printStackTrace();
         }
     }

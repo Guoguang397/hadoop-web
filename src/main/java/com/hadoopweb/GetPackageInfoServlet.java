@@ -18,12 +18,11 @@ public class GetPackageInfoServlet extends HttpServlet {
             pw.println("1\nNo jarPath input.");
             return;
         }
-        jarName = "WEB-INF/uploads/maven.jar";
+        jarName = "WEB-INF/uploads/" + jarName;
         String realPath = this.getServletContext().getRealPath(jarName);
         System.out.println(realPath);
         try {
             PackageInfo pki = JarLoader.loadJar(realPath);
-            pw.println("0");
             pw.println("JarPath: " + realPath);
             pw.println("MapperClass: " + pki.MapperClass);
             pw.println("ReducerClass: " + pki.ReducerClass);
@@ -32,7 +31,7 @@ public class GetPackageInfoServlet extends HttpServlet {
             pw.println("OutputKeyClass: " + pki.OutputKeyClass);
             pw.println("OutputValueClass: " + pki.OutputValueClass);
         } catch (Exception e) {
-            pw.println("1\nError while loading pkgs.");
+            pw.println("Error while loading pkgs.");
         }
     }
 

@@ -12,6 +12,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
 import java.util.List;
 
 @WebServlet(name = "ReadResultServlet", value = "/ReadResultServlet")
@@ -22,13 +25,13 @@ public class ReadResultServlet extends HttpServlet {
         String jobID = request.getParameter("jobID");
         PrintWriter pw = response.getWriter();
         if(jobID == null) {
-            pw.write("0\nNo job ID.");
+            pw.write("No job ID.");
             return;
         }
         PackageInfo pki = null;
         List<PackageInfo> pkis = (List<PackageInfo>) getServletContext().getAttribute("pkis");
         if(pkis == null) {
-            pw.write("0\nNo job found.");
+            pw.write("No job found.");
             return;
         }
         for(PackageInfo pkii:pkis) {
@@ -37,22 +40,22 @@ public class ReadResultServlet extends HttpServlet {
             }
         }
         if(pki == null) {
-            pw.write("0\nNo job with id "+jobID+" found.");
+            pw.write("No job with id "+jobID+" found.");
             return;
         }
         Configuration conf = new Configuration();
-        conf.set("fs.defaultFS", "hdfs://192.168.48.10:9000");
+        conf.set("fs.defaultFS", "hdfs://222.27.167.89:8020");
 
         FileSystem fs = null;
         try {
-            fs = FileSystem.get(new URI("hdfs://192.168.48.10:9000"),conf, "guoguang");
+            fs = FileSystem.get(new URI("hdfs://222.27.167.89:8020"),conf, "guoguang");
         } catch (InterruptedException | URISyntaxException e) {
             e.printStackTrace();
         }
         FSDataInputStream inStream = fs.open(new Path(pki.OutputPath+"/part-r-00000"));
         String line;
         while((line = inStream.readLine())!=null) {
-            pw.write(line);
+            pw.println(line);
         }
         inStream.close();
         fs.close();

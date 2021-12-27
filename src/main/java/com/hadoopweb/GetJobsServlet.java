@@ -19,9 +19,9 @@ public class GetJobsServlet extends HttpServlet {
             for (PackageInfo info:pkis) {
                 try {
                     Job job = info.job;
-                    pw.println(String.format("%s|%s|%s|%d|%d|%f|%f|%f|%f|%s",
+                    pw.println(String.format("%s|%s|%s|%d|%d|%f|%f|%f|%f|%b|%s",
                             job.getJobID().toString(),job.getJobName(),job.getJobState().toString(),job.getStartTime(),job.getFinishTime(),
-                            job.setupProgress(),job.mapProgress(),job.reduceProgress(),job.cleanupProgress(),job.getTrackingURL()));
+                            job.setupProgress(),job.mapProgress(),job.reduceProgress(),job.cleanupProgress(),job.isComplete(),job.getTrackingURL()));
                 } catch (InterruptedException e) {
                     pw.println("Error while getting job info.");
                     e.printStackTrace();

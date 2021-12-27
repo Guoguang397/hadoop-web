@@ -32,13 +32,25 @@ $(document).ready(function(){
 		//alert(str);
 		var strArray  = str.split('|')
 		var rowStr = "<tr>";
+        strArray[0] = "<a id='data"+j+"' href='#'>" + strArray[0] + "</a>";
 	    for(var i in strArray){
-	    	rowStr = rowStr + "<td>"+strArray[i]+"</td>"
+	    	rowStr = rowStr + "<td>"+strArray[i]+"</td>";
 	//         alert(strArray[i]);
 	    }
-		rowStr = rowStr + "<td><input type='text' class='form-control'/></td><td> <button type='button' class='btn btn-default submit-btn'>按钮</button></td></tr>";
+		rowStr = rowStr + "<td><input type='text' class='form-control'/></td><td> <button type='button' class='btn btn-default submit-btn'>运行</button></td></tr>";
 // 		alert(rowStr);
 		$("#show-table").append(rowStr);
+        $("#data"+j).click(function () {
+            var htmlobj = $.ajax({
+                url:"GetPackageInfoServlet",
+                async:false,
+                type:"get",
+                data:{
+                    "jarName":$(this).html()
+                }
+            });
+            alert(htmlobj.responseText)
+        });
 	}
 	
 	$(".submit-btn").click(function(){

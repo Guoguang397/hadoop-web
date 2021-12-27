@@ -18,13 +18,13 @@ public class JobManager {
    public static Job submitJob(PackageInfo pki) throws Exception {
       // 0x01 Get configuration and Job instance
       Configuration conf = new Configuration();
-      conf.set("fs.defaultFS", "hdfs://192.168.48.10:9000");
+      conf.set("fs.defaultFS", "hdfs://222.27.167.89:8020");
       conf.set("hadoop.job.user", "guoguang");
       conf.set("mapreduce.framework.name", "yarn");
 //      conf.set("mapreduce.jobtracker.address", "192.168.48.10:9001");
-      conf.set("yarn.resourcemanager.hostname", "192.168.48.11");
-      conf.set("mapreduce.jobhistory.address", "192.168.48.10:10020");
-      conf.set("mapreduce.jobhistory.webapp.address", "192.168.48.10:19888");
+      conf.set("yarn.resourcemanager.hostname", "222.27.167.83");
+      conf.set("mapreduce.jobhistory.address", "222.27.167.89:10020");
+      conf.set("mapreduce.jobhistory.webapp.address", "222.27.167.89:19888");
 
       Job job = Job.getInstance(conf);
 

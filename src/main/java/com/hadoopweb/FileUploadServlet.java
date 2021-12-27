@@ -29,7 +29,7 @@ public class FileUploadServlet extends HttpServlet {
         //取得互联网程序的绝对地址
         String realPath = request.getSession().getServletContext().getRealPath("/");
         //创建文件的保存目录
-        rootPath = realPath + "/WEB-INF/upload/";
+        rootPath = realPath + "/WEB-INF/uploads/";
         //取得客户端上传的数据类型
         String contentType = request.getContentType();
         try {
