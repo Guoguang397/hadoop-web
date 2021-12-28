@@ -1,11 +1,8 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="zh">
 <head>
 <meta charset="UTF-8">
     <title>主页示例</title>
-
-
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet">
 
@@ -33,7 +30,7 @@ $(document).ready(function(){
 		var strArray  = str.split('|')
 		var rowStr = "<tr>";
 	    for(var i in strArray){
-            if(i == 10){
+            if(i === 10){
                 if(!strArray[i].startsWith("http"))strArray[i]="http://"+strArray[i];
                 rowStr = rowStr + "<td><a href='"+strArray[i]+"'>"+strArray[i]+"</a></td>"
             }
