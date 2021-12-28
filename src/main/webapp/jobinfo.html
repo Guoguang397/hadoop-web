@@ -33,11 +33,15 @@ $(document).ready(function(){
 		var strArray  = str.split('|')
 		var rowStr = "<tr>";
 	    for(var i in strArray){
-	    	rowStr = rowStr + "<td>"+strArray[i]+"</td>"
-	//         alert(strArray[i]);
+            if(i == 10){
+                if(!strArray[i].startsWith("http"))strArray[i]="http://"+strArray[i];
+                rowStr = rowStr + "<td><a href='"+strArray[i]+"'>"+strArray[i]+"</a></td>"
+            }
+            else{
+	    	    rowStr = rowStr + "<td>"+strArray[i]+"</td>";
+            }
 	    }
 		rowStr = rowStr + "</tr>"
-// 		alert(rowStr);
 		$("#show-table").append(rowStr);
 	}
 });
